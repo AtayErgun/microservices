@@ -1,0 +1,47 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: gateway
+    cloud:
+      discovery:
+        enabled: true
+      gateway:
+        discovery:
+          locator:
+            lower-case-service-id: true
+            enabled: true
+        routes:
+          - id: basket
+            uri: lb://basket
+            predicates:
+              - Path=/basket/**
+          # ===============================
+          - id: stock
+            uri: lb://stock
+            predicates:
+              - Path=/stock/**
+          # ===============================
+          - id: auth
+            uri: lb://auth
+            predicates:
+              - Path=/auth/**
+          # ===============================
+          - id: payment
+            uri: lb://payment
+            predicates:
+              - Path=/payment/**
+          #     ===============================
+          - id: eureka
+            uri: lb://eureka
+            predicates:
+              - Path=/eureka/**
+  main:
+    web-application-type: reactive
+#     ===============================
+eureka:
+  client:
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
