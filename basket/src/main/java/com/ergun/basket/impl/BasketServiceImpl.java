@@ -9,6 +9,7 @@ import com.ergun.basket.feign.ProductFeign;
 import com.ergun.basket.impl.basketitem.BasketItem;
 import com.ergun.basket.impl.basketitem.BasketItemServiceImpl;
 
+import com.ergun.stock.product.web.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -74,7 +75,7 @@ public class BasketServiceImpl implements BasketService {
         basket.setCustomerId(customer.getCustomerId());
         basket.setStatus(BASKET_STATUS_NONE);
         basket=repository.save(basket);
-        ProductDto product = productFeign.get(String.valueOf(basketDto.getProductId()));
+        ProductDto product = mapToProductDto(productFeign.get(String.valueOf(basketDto.getProductId())));
         if (product == null) {
             throw new RuntimeException("product not found");
         }
@@ -95,7 +96,7 @@ public class BasketServiceImpl implements BasketService {
         if (basketItem == null) {
             System.out.println("Eklenen ürün sepette yok");
               // Product product = basketItem.getProduct(); Hoca bunu yazdı yüksek ihtimalle yanlış var!
-            ProductDto product = productFeign.get(String.valueOf(basketDto.getProductId()));
+            ProductDto product = mapToProductDto(productFeign.get(String.valueOf(basketDto.getProductId())));
             if (product == null) {
                 throw new RuntimeException("product not found");
             }
@@ -109,7 +110,7 @@ public class BasketServiceImpl implements BasketService {
 //            System.out.println("BasketİtemList boş mu" + basketDto.getBasketItemList().get(0).getProduct().getName());
 //            System.out.println("BasketItem : " + basketItem);
             // Eklenen ürün sepette var
-            ProductDto product = productFeign.get(String.valueOf(basketDto.getProductId()));
+            ProductDto product = mapToProductDto(productFeign.get(String.valueOf(basketDto.getProductId())));
             if (product == null) {
                 throw new RuntimeException("product not found");
             }
@@ -126,6 +127,15 @@ public class BasketServiceImpl implements BasketService {
 
         return toDto(basket);
 
+    }
+
+    private ProductDto mapToProductDto(ProductResponse productResponse) {
+        return ProductDto.builder()
+                .productId(productResponse.getProductId())
+                .name(productResponse.getName())
+                .price(productResponse.getPrice())
+                .stock(productResponse.getStock())
+                .categoryId(productResponse.getCategoryId()).build();
     }
 
     private BasketItem createBasketItem(ProductDto product, Basket basket,AddBasketDto basketDto) {

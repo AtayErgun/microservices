@@ -15,7 +15,6 @@ public class ProductDto {
     private  int stock;
     private  double price;
     private  int categoryId;
-    private  int shopId;
 
 
     public ProductDto(int productId) {
