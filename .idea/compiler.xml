@@ -7,11 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="basket" />
+        <module name="auth" />
+        <module name="eureka" />
         <module name="payment" />
         <module name="stock" />
-        <module name="auth" />
+        <module name="rabbitmq" />
         <module name="gateway" />
-        <module name="eureka" />
       </profile>
     </annotationProcessing>
   </component>
@@ -22,6 +23,7 @@
       <module name="eureka" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="payment" options="-parameters" />
+      <module name="rabbitmq" options="-parameters" />
       <module name="stock" options="-parameters" />
     </option>
   </component>

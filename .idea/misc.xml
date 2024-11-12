@@ -10,6 +10,7 @@
         <option value="$PROJECT_DIR$/basket/pom.xml" />
         <option value="$PROJECT_DIR$/gateway/pom.xml" />
         <option value="$PROJECT_DIR$/eureka/pom.xml" />
+        <option value="$PROJECT_DIR$/rabbitmq/pom.xml" />
       </list>
     </option>
   </component>
